@@ -17,15 +17,18 @@ class Student:
                 lecturer.grade_lecturer[course] = [grade]
         else:
             return 'Ошибка'
+    
         
-    def __grade_average__ (self):
+    def __grade_average__ (self, student, course):
+        all_students = []
         all_grades = []
-        for grades_av in self.grades.values():
-            all_grades.extend(grades_av)
-        if len(all_grades) > 0:
-            return sum(all_grades) / len(all_grades)
-        else:
-            return 'Нет оценок'
+        if course in student.courses_in_progress and course in self.grades.values():
+            for grades_av in self.grades.values():
+                all_grades.append(grades_av)
+            if len(all_grades) > 0:
+                return sum(all_grades) / len(all_students)
+            else:
+                return 'Нет оценок'
 
 
     def __gt__(self, other):
@@ -53,16 +56,18 @@ class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grade_lecturer = {} 
-
-
-    def __grade_average__ (self):
         all_grades = []
-        for grades_av in self.grade_lecturer.values():
-            all_grades.extend(grades_av)
-        if len(all_grades) > 0:
-            return sum(all_grades) / len(all_grades)
-        else:
-            return 'Нет оценок'
+
+
+    def __grade_average__ (self, lecturer, course):
+        all_grades = []
+        if course in lecturer.courses_attached and course in lecturer.grade_lecturer.values():
+            for grades_av in self.grades.values():
+                all_grades.append(grades_av)
+            if len(all_grades) > 0:
+                return sum(all_grades) / len(all_grades)
+            else:
+                return 'Нет оценок'
 
 
     def __gt__(self, other):
